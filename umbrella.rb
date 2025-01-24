@@ -9,9 +9,7 @@ require "json"
 # Ask the user for their location
 # Get and store the user’s location.
 puts "Where you at?" 
-#user_location = gets.chomp
-user_location = "Gleacher Center"
-
+user_location = gets.chomp
 
 # Get the user’s latitude and longitude from the Google Maps API.
 gmaps_api_key = ENV.fetch("GMAPS")
@@ -33,7 +31,21 @@ current_temperature = parsed_response["currently"]["temperature"]
 summary = parsed_response["currently"]["summary"]
 
 # If you get that far, then stretch further:For each of the next twelve hours, check if the precipitation probability is greater than 10%.
-pp parsed_response["hourly"]["data"].length
+flag = false
+12.times do |counter|
+  if parsed_response["hourly"]["data"][counter]["precipProbability"] > 0.10
+    flag = true
+  end
+end
+
+if flag
+  pp "It's probably going to rain"
+else
+  pp "It probably won't rain"
+end
+  
+
+# pp parsed_response["hourly"]["data"][0]["precipProbability"]
 
 # If so, print a message saying how many hours from now and what the precipitation probability is.
 
